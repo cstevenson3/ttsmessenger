@@ -26,7 +26,7 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 body {
-	line-height: 1;
+    line-height: 1;
 }
 ol, ul {
 	list-style: none;
@@ -50,11 +50,31 @@ table {
 
 body {
     font-family: Verdana;
+    background-color: grey;
+}
+
+.centered{
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    text-overflow:inherit;
+    overflow: inherit;
 }
 
 h6 {
     color:white;
-    padding:10px;
+    padding:2vh;
+    font-size: 3vh;
+}
+
+#contents {
+    position:fixed;
+    width:50vh;
+    left:calc(50vw - 25vh);
+    height:100vh;
+    top:0;
 }
 
 #messages {
@@ -86,6 +106,19 @@ h6 {
     -webkit-transform:rotate(180deg);
     -ms-transform:rotate(180deg);
     */
+}
+
+.message_play_button {
+    position: absolute;
+    height:7vh;
+    width:7vh;
+    top:0%;
+    right:0%;
+    background-color: palegreen;
+    background-image: url(../img/play.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 #input {
