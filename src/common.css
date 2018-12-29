@@ -69,14 +69,6 @@ h6 {
     font-size: 3vh;
 }
 
-#contents {
-    position:fixed;
-    width:50vh;
-    left:calc(50vw - 25vh);
-    height:100vh;
-    top:0;
-}
-
 #messages {
     position: absolute;
     width:100%;
