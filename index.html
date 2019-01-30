@@ -8,30 +8,21 @@
     <link rel="stylesheet" media="screen" type="text/css" href="css/common.css" />
     <link rel="stylesheet" media="screen and (max-aspect-ratio: 1/1)" type="text/css" href="css/portrait.css" />
     <link rel="stylesheet" media="screen and (min-aspect-ratio: 1/1)" type="text/css" href="css/landscape.css" />
-    <script src="js/postabstractiontest.js"></script>
+    <script src="js/messageManager.js"></script>
 </head>
 
 <body>
     <div id="contents">
-        <div id="messages">
-            <div id="messages_container">
-                <div class="message">
-                    <h6>message 1</h6>
-                    <div class="message_play_button">
-    
-                    </div>
-                </div>
-                <div class="message">
-                    <h6>message 2</h6>
-                    <div class="message_play_button">
-    
-                    </div>
+        <div id="messages"> <!––table for bottom aligned messages -->
+            <div id="messages_container"> <!––table cell for bottom aligned messages -->
+                <div id="messages_container2"> <!–– for scrollbar -->
+
                 </div>
             </div>
         </div>
     
         <div id="input">
-            
+            <textarea id="input_text_field"></textarea>
         </div>
     </div>
 
