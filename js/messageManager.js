@@ -4,7 +4,7 @@ let noFileString = "nofile";
 
 let inputTextFieldId = "input_text_field";
 
-let testRoom = 0; // magic number
+let testRoom = "abc"; // magic number
 
 window.onload = init;
 
