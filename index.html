@@ -8,50 +8,92 @@
     <link rel="stylesheet" media="screen" type="text/css" href="css/common.css" />
     <link rel="stylesheet" media="screen and (max-aspect-ratio: 1/1)" type="text/css" href="css/portrait.css" />
     <link rel="stylesheet" media="screen and (min-aspect-ratio: 1/1)" type="text/css" href="css/landscape.css" />
-    <script type="" src="js/messageManager.js"></script>
+
+    <script type="" src="js/types.js"></script>
+    <script type="" src="js/util.js"></script>
+
+    <script type="" src="js/addRoomToUserToServer.js"></script>
+    <script type="" src="js/addUserToRoomToServer.js"></script>
+    <script type="" src="js/createMessageToServer.js"></script>
+    <script type="" src="js/createRoomToServer.js"></script>
+    <script type="" src="js/createUserToServer.js"></script>
+    <script type="" src="js/getMessageFromServer.js"></script>
+    <script type="" src="js/loginUserToServer.js"></script>
+    
+    <script type="" src="js/domManager.js"></script>
+    <script type="" src="js/clientState.js"></script>
+    <script type="" src="js/main.js"></script>
 </head>
 
 <body>
-    <div id="contents">
-        <div id="room_header">
-            <textarea id="room_switch_text_area" placeholder="Switch to room (Enter room name and hit enter)"></textarea>
-            <textarea id="room_switch_password" placeholder="Room Password (Optional)"></textarea>
-            <div id="room_create">
-                    <textarea id="room_create_name" placeholder="Create new room (Enter room name)"></textarea>
-
-                    <div id="access_by_url_div">
-                        <h6>Access By URL</h6>
-                        <div id="access_by_url_checkbox_container">
-                            <input type="checkbox" id="access_by_url">
-                        </div>
-                        
-                    </div>
-
-                    <div id="access_by_password_div">
-                        <h6>Access By Password</h6>
-                        <div id="access_by_password_checkbox_container">
-                            <input type="checkbox" id="access_by_password">
-                        </div>
-                        
-                    </div>
-                    
-                    <textarea id="room_create_password" placeholder="Password (optional)"></textarea>
-
-                    <div id="room_create_enter"><h6>Create</h6></div>
-                   
-            </div>
+    <div id="user_menu">
+        <div id="user_create_menu" class="username_password_entry">
+            <h6>Create User</h6>
+            <textarea id="user_create_username" class="username_password_textarea" placeholder="Username"></textarea>
+            <textarea id="user_create_password" class="username_password_textarea" placeholder="Password"></textarea>
         </div>
+
+        <div id="user_login_menu" class="username_password_entry">
+            <h6>Login User</h6>
+            <textarea id="user_login_username" class="username_password_textarea" placeholder="Username"></textarea>
+            <textarea id="user_login_password" class="username_password_textarea" placeholder="Password"></textarea>
+        </div>
+
+        <div id="room_join_menu" class="username_password_entry">
+            <h6>Join room</h6>
+            <textarea id="room_join_name" class="username_password_textarea" placeholder="Room name"></textarea>
+            <textarea id="room_join_password" class="username_password_textarea" placeholder="Room password"></textarea>
+        </div>
+
+        <div id="user_room_list"></div>
+    </div>
+
+    <div id="room_menu">
+        <div id="room_create_div" class="username_password_entry">
+            <h6>Create new room</h6>
+            <textarea id="room_create_name" class="username_password_textarea" placeholder="Room name"></textarea>
+            <textarea id="room_create_password" class="username_password_textarea" placeholder="Room password"></textarea>
+
+            <div id="access_by_url_div" class="tooltip">
+                <span class="tooltiptext">Should anyone who knows the room's unique name be able to access this room?</span>
+                <h6>Access By URL</h6>
+                <div id="access_by_url_checkbox_container">
+                    <input type="checkbox" id="access_by_url" checked>
+                </div>
+                    
+            </div>
+    
+            <div id="access_by_password_div" class="tooltip">
+                <span class="tooltiptext">Should anyone with the room password be able to access this room?</span>
+                <h6>Access By Password</h6>
+                <div id="access_by_password_checkbox_container">
+                    <input type="checkbox" id="access_by_password">
+                </div>
+                    
+            </div>
+
+            <div id="room_create_enter"><h6>Create</h6></div>
+        </div>
+
+        
+
+        <div id="room_add_user_div" class="username_password_entry">
+            <h6>Add user to room</h6>
+            <textarea id="room_add_user" class="username_password_textarea" placeholder="Username"></textarea>
+        </div>
+    </div>
+
+    <div id="contents">
 
         <div id="messages"> <!––table for bottom aligned messages -->
             <div id="messages_container"> <!––table cell for bottom aligned messages -->
                 <div id="messages_container2"> <!–– for scrollbar -->
-
                 </div>
             </div>
         </div>
     
         <div id="input">
-            <textarea id="input_text_field"></textarea>
+            <textarea id="input_text_field" placeholder="Message..."></textarea>
         </div>
     </div>
 

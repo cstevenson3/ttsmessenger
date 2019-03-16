@@ -1,12 +1,13 @@
-//post a new message
-
 let noFileString = "nofile";
 
 let inputTextFieldId = "input_text_field";
 let roomNameTextFieldId = "room_switch_text_area";
 
-let testRoom = "welcome"; // magic number
+let currentRoom = "welcome";
 let roomPassword = "";
+
+let currentUser = "";
+let userPassword = "";
 
 let getMessageMutex = 1;
 
@@ -15,11 +16,98 @@ window.onload = init;
 function init(){
     //css changes
     document.getElementById("input").style.backgroundColor = "grey";
+
+    //events
     document.getElementById(inputTextFieldId).addEventListener("keypress", keyupOnInputTextField);
     document.getElementById(roomNameTextFieldId).addEventListener("keypress", keyupOnRoomNameTextField);
+    document.getElementById("room_switch_password").addEventListener("keypress", keyupOnRoomPasswordTextField);
     document.getElementById("room_create_enter").addEventListener("click", clickOnRoomCreateEnter);
+    document.getElementById("user_login_password").addEventListener("keypress", keyPressOnUserLoginPassword);
+    document.getElementById("user_create_password").addEventListener("keypress", keyPressOnUserCreatePassword);
+    document.getElementById("room_add_user").addEventListener("keypress", keyPressOnRoomAddUser);
+
+    //insertMessage(new Message("welcome", 0, "text lol 0", "/audio/a.wav"));
+    //insertMessage(new Message("welcome", 2, "text lol 2", "/audio/a.wav"));
+    //insertMessage(new Message("welcome", 1, "text lol 1", "/audio/a.wav"));
+
     //init get message loop
-    getMessage(testRoom, nextMessage);
+    getMessage(currentRoom, nextMessage);
+}
+
+function addUserToRoom(room, user){
+    fetch(noFileString, 
+        {method: "POST", 
+        body: "", 
+        headers: {
+        "Content-Type": "text/plain",
+        "Command":"addUserToRoom",
+        "Room":currentRoom,
+        "User":currentUser,
+        "User-Password":userPassword,
+        "New-User": user
+        }
+        }
+        ).then(addUserToRoomResponse);
+        function addUserToRoomResponse(response){
+            if(response.ok){
+                console.log("Added user to room");
+            }else{
+                console.log("Failed to add user to room");
+            }
+        }
+}
+
+function keyPressOnRoomAddUser(e){
+    if (e.keyCode==13){
+        e.preventDefault();
+        username = document.getElementById("room_add_user").value;
+        addUserToRoom(currentRoom, username);
+    }
+}
+
+function createUser(username, password){
+    fetch(noFileString, 
+        {method: "POST", 
+        body: "", 
+        headers: {
+        "Content-Type": "text/plain",
+        "Command":"createUser",
+        "New-User":username,
+        "User-Password":password
+        }
+        }
+        ).then(createUserResponse);
+        function createUserResponse(response){
+            if(response.ok){
+                loginUser(username, password);
+            }else{
+                console.log("Failed to create user");
+            }
+        }
+}
+
+function keyPressOnUserCreatePassword(e){
+    if(e.keyCode == 13){
+        e.preventDefault();
+        username = document.getElementById("user_create_username").value;
+        password = document.getElementById("user_create_password").value;
+        createUser(username, password);
+    }
+}
+
+function loginUser(username, password){
+    //TODO check if valid user
+    userPassword = password;
+    currentUser = username;
+}
+
+function keyPressOnUserLoginPassword(e){
+    if(e.keyCode == 13){
+        e.preventDefault();
+        username = document.getElementById("user_login_username").value;
+        password = document.getElementById("user_login_password").value;
+        loginUser(username, password);
+    }
 }
 
 function createRoom(name, accessByURL, accessByPassword, password){
@@ -33,17 +121,19 @@ function createRoom(name, accessByURL, accessByPassword, password){
     "Room":name,
     "Room-Access-By-URL":accessByURL,
     "Room-Access-By-Password":accessByPassword,
-    "Room-Password":password
+    "Room-Password":password,
+    "User":currentUser,
+    "User-Password":userPassword
     }
     }
-    ).then(createMessageResponse);
+    ).then(createRoomResponse);
 }
 
-function createMessageResponse(response){
+function createRoomResponse(response){
     if(response.status==200){
         console.log("yes");
+        switchRoom(response.headers.get("Room"));
     }
-    switchRoom(response.headers.get("Room"));
     getMessageMutex = 1;
 }
 
@@ -59,7 +149,7 @@ function clickOnRoomCreateEnter(e){
 function switchRoom(roomName){
     
     var node = document.getElementById("messages_container2");
-    testRoom = roomName;
+    currentRoom = roomName;
     //roomPassword = document.getElementById("room_switch_password").value;
     while (node.firstChild) {
         node.removeChild(node.firstChild);
@@ -81,12 +171,21 @@ function keyupOnRoomNameTextField(e){
     }
 }
 
+function keyupOnRoomPasswordTextField(e){
+    if(e.keyCode == 13){
+        e.preventDefault();
+        roomName = document.getElementById(roomNameTextFieldId).value;
+        switchRoom(roomName);
+        roomPassword = document.getElementById("room_switch_password").value;
+    }
+}
+
 function enterOnInput(e){
     e.preventDefault();
     message = document.getElementById(inputTextFieldId).value;
     console.log(message);
     document.getElementById(inputTextFieldId).value = "";
-    createMessage(testRoom, message);
+    createMessage(currentRoom, message);
 }
 
 function keyupOnInputTextField (e){
@@ -104,7 +203,9 @@ function createMessage(room, message){
     "Content-Type": "text/plain",
     "Command":"createMessage",
     "Room":room,
-    "Room-Password":roomPassword
+    "Room-Password":roomPassword,
+    "User":currentUser,
+    "User-Password":userPassword
     }
     }
     ).then(postMessageResponse);
@@ -119,7 +220,7 @@ let nextMessage = 0; //the next message which needs to be loaded
 function getMessage(room, messageIndex){
     console.log(roomPassword);
     if(getMessageMutex == 0){
-        sleep(50).then(() => {getMessage(testRoom, nextMessage);});
+        sleep(50).then(() => {getMessage(currentRoom, nextMessage);});
         return;
     }
     //fetch message
@@ -130,7 +231,9 @@ function getMessage(room, messageIndex){
     "Command": "getMessage",
     "Room": room,
     "Message-Index":messageIndex,
-    "Room-Password":roomPassword
+    "Room-Password":roomPassword,
+    "User":currentUser,
+    "User-Password":userPassword
     }
     }
     ).then(getMessageResponse);
@@ -146,7 +249,7 @@ function getMessageResponse(response){
         response.text().then(getMessageResponseText);
     }else{
         console.log("getMessage Failed (not success)");
-        sleep(50).then(() => {getMessage(testRoom, nextMessage);});
+        sleep(50).then(() => {getMessage(currentRoom, nextMessage);});
     }
 
     function getMessageResponseText(text){
@@ -160,7 +263,7 @@ function getMessageResponse(response){
         messageAudio.load();
         //update html
         nextMessage += 1;
-        sleep(50).then(() => {getMessage(testRoom, nextMessage);});
+        sleep(50).then(() => {getMessage(currentRoom, nextMessage);});
 
         function soundLoaded(){
             messageAudio.play();
