@@ -5,6 +5,7 @@ let noFileString = "nofile";
 let NUM_MESSAGES_SHOWN = 20;
 
 //DOM
+let usernameDisplayId = "user_menu_username_display";
 
 let userCreateNameId = "user_create_username";
 let userCreatePasswordId = "user_create_password";

@@ -27,6 +27,11 @@
 
 <body>
     <div id="user_menu">
+        <div id="user_menu_username_div" class="username_password_entry">
+            <h6>User: </h6>
+            <h6 id="user_menu_username_display">no-user</h6>
+        </div>
+
         <div id="user_create_menu" class="username_password_entry">
             <h6>Create User</h6>
             <textarea id="user_create_username" class="username_password_textarea" placeholder="Username"></textarea>
@@ -84,7 +89,15 @@
     </div>
 
     <div id="contents">
-
+       
+        <div id="help_text">
+            <h6>Try messaging these strings:<br>
+                sample text<br>
+                *loud sample text* (surrounding text with asterisks makes it louder)<br>
+                sound effect @ insertion (@ is used as an example for audio insertion)
+            </h6>
+        </div>
+        
         <div id="messages"> <!––table for bottom aligned messages -->
             <div id="messages_container"> <!––table cell for bottom aligned messages -->
                 <div id="messages_container2"> <!–– for scrollbar -->

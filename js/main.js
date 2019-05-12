@@ -22,7 +22,9 @@ function init(){
 
     bindFunctionToEnterOnNode(inputTextFieldId, enterOnInputTextField);
 
-    updateLoop();
+    setUsernameDisplay(clientState.user.username);
+
+    sleep(0).then(updateLoop);
 }
 
 function updateLoop(){

@@ -52,6 +52,8 @@ function insertMessage(message){
             break;
         }
     }
+
+    audioNode.play();
 }
 
 function bindFunctionToEnterOnNode(nodeId, func){
@@ -184,4 +186,9 @@ function cleanupMessages(beforeIndex){
             }
         }
     }
+}
+
+
+function setUsernameDisplay(username){
+    document.getElementById(usernameDisplayId).textContent = username;
 }

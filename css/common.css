@@ -278,8 +278,8 @@ textarea{
 #messages {
     position: absolute;
     width:100%;
-    height:80%;
-    top:0%;
+    height:60%;
+    top:20%;
     left:0%;
     background-color: #333333;
     display:table;
@@ -349,4 +349,13 @@ textarea{
     font-size: 3vh;
     resize: none;
     color: black;
+}
+
+#help_text{
+    position: absolute;
+    height: 20%;
+    width: 100%;
+    background-color:darkgrey;
+    left:0%;
+    top:0%;
 }
